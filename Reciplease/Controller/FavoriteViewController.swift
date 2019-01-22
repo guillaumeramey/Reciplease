@@ -9,7 +9,7 @@ import UIKit
 
 class FavoriteViewController: UITableViewController {
 
-    var recipes: [Recipe]!
+    var recipes = [Recipe]()
     var selectedRow: Int!
 
     override func viewDidLoad() {
@@ -19,7 +19,7 @@ class FavoriteViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        recipes = favorites
+        recipes = Favorite.recipes
         tableView.reloadData()
     }
 
@@ -29,14 +29,10 @@ class FavoriteViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "customRecipeCell", for: indexPath) as? CustomRecipeCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "customRecipeCell") as? CustomRecipeCell else {
             return UITableViewCell()
         }
-
-        cell.set(name: recipes[indexPath.row].name,
-                 image: recipes[indexPath.row].imageSmall,
-                 rating: recipes[indexPath.row].rating)
-
+        cell.set(recipe: recipes[indexPath.row])
         return cell
     }
 

@@ -8,8 +8,6 @@
 
 import Foundation
 
-var favorites = [Recipe]()
-
 class Recipe {
     var isFavorite: Bool = false
     let id: String
@@ -21,6 +19,7 @@ class Recipe {
     var ingredientLines: [String] = []
     var totalTime: String = ""
     var numberOfServings: Int = 0
+    var recipeURL: String = ""
 
     init(id: String, name: String, imageSmall: String, rating: Int, ingredients: [String]) {
         self.id = id

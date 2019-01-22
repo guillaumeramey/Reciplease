@@ -25,38 +25,38 @@
                             <constraint firstAttribute="width" secondItem="uQ3-M3-Oo6" secondAttribute="height" id="ECz-c1-EF8"/>
                         </constraints>
                     </imageView>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dqL-bX-wze">
-                        <rect key="frame" x="162.5" y="31" width="244.5" height="91.5"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="dqL-bX-wze">
+                        <rect key="frame" x="162.5" y="5.5" width="244.5" height="142.5"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipe name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOf-ke-ufX">
-                                <rect key="frame" x="0.0" y="0.0" width="113" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipe name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="aOf-ke-ufX">
+                                <rect key="frame" x="0.0" y="0.0" width="97" height="50.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingredient, ingredient..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DBk-Ew-egL" userLabel="Ingredients">
-                                <rect key="frame" x="0.0" y="34" width="177.5" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingredient, ingredient..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DBk-Ew-egL" userLabel="Ingredients">
+                                <rect key="frame" x="0.0" y="50.5" width="143" height="42.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="WNf-9e-GhS">
-                                <rect key="frame" x="0.0" y="64.5" width="165" height="27"/>
+                                <rect key="frame" x="0.0" y="93" width="165" height="49.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star_false" translatesAutoresizingMaskIntoConstraints="NO" id="BYD-dh-EMT" userLabel="star_1">
-                                        <rect key="frame" x="0.0" y="0.0" width="29" height="27"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="29" height="49.5"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star_false" translatesAutoresizingMaskIntoConstraints="NO" id="CQK-K5-hV2" userLabel="star_2">
-                                        <rect key="frame" x="34" y="0.0" width="29" height="27"/>
+                                        <rect key="frame" x="34" y="0.0" width="29" height="49.5"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star_false" translatesAutoresizingMaskIntoConstraints="NO" id="Su6-im-mgI" userLabel="star_3">
-                                        <rect key="frame" x="68" y="0.0" width="29" height="27"/>
+                                        <rect key="frame" x="68" y="0.0" width="29" height="49.5"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star_false" translatesAutoresizingMaskIntoConstraints="NO" id="9Ls-wd-qRO" userLabel="star_4">
-                                        <rect key="frame" x="102" y="0.0" width="29" height="27"/>
+                                        <rect key="frame" x="102" y="0.0" width="29" height="49.5"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star_false" translatesAutoresizingMaskIntoConstraints="NO" id="yQG-S5-wwa" userLabel="star_5">
-                                        <rect key="frame" x="136" y="0.0" width="29" height="27"/>
+                                        <rect key="frame" x="136" y="0.0" width="29" height="49.5"/>
                                     </imageView>
                                 </subviews>
                             </stackView>
@@ -67,6 +67,7 @@
                     <constraint firstItem="uQ3-M3-Oo6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="cMl-jt-SJ2"/>
                     <constraint firstAttribute="trailingMargin" secondItem="dqL-bX-wze" secondAttribute="trailing" id="cVe-AR-guP"/>
                     <constraint firstItem="dqL-bX-wze" firstAttribute="leading" secondItem="uQ3-M3-Oo6" secondAttribute="trailing" constant="10" id="jbe-QV-6Xg"/>
+                    <constraint firstItem="dqL-bX-wze" firstAttribute="height" secondItem="uQ3-M3-Oo6" secondAttribute="height" id="lFQ-pu-k20"/>
                     <constraint firstItem="dqL-bX-wze" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="rOp-lU-GVE"/>
                     <constraint firstItem="uQ3-M3-Oo6" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="1:3" id="usn-Dq-Cr4"/>
                     <constraint firstItem="uQ3-M3-Oo6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="wJE-3H-cww"/>
@@ -75,6 +76,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="recipeImage" destination="uQ3-M3-Oo6" id="DyD-hg-yvD"/>
+                <outlet property="recipeIngredients" destination="DBk-Ew-egL" id="Dfi-Dr-KlT"/>
                 <outlet property="recipeName" destination="aOf-ke-ufX" id="tuB-5T-mmq"/>
                 <outletCollection property="recipeRating" destination="BYD-dh-EMT" collectionClass="NSMutableArray" id="3ki-b1-bP9"/>
                 <outletCollection property="recipeRating" destination="CQK-K5-hV2" collectionClass="NSMutableArray" id="E16-As-j7G"/>

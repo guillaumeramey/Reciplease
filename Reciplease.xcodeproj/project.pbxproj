@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A428ED4B21F45CBE00FAEE5D /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A428ED4A21F45CBE00FAEE5D /* Alert.swift */; };
 		A43A605321F4838400D4E5E3 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43A605221F4838400D4E5E3 /* Recipe.swift */; };
+		A443D71021F6BBD1007230E8 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A443D70F21F6BBD1007230E8 /* Favorite.swift */; };
 		A46A6B2921EAEEBA00DF6F92 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = A46A6B2821EAEEBA00DF6F92 /* Keys.plist */; };
 		A46A6B2B21EAEEF800DF6F92 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A6B2A21EAEEF800DF6F92 /* ApiKeys.swift */; };
 		A46A6B2D21EAF68500DF6F92 /* SearchResultsJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A6B2C21EAF68500DF6F92 /* SearchResultsJSON.swift */; };
@@ -49,6 +50,7 @@
 		8961F34713893C4900393EC8 /* Pods-Reciplease.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reciplease.release.xcconfig"; path = "Pods/Target Support Files/Pods-Reciplease/Pods-Reciplease.release.xcconfig"; sourceTree = "<group>"; };
 		A428ED4A21F45CBE00FAEE5D /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		A43A605221F4838400D4E5E3 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		A443D70F21F6BBD1007230E8 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		A46A6B2821EAEEBA00DF6F92 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		A46A6B2A21EAEEF800DF6F92 /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		A46A6B2C21EAF68500DF6F92 /* SearchResultsJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsJSON.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 		A4A06E4521EF813700922A15 /* RecipeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCell.xib; sourceTree = "<group>"; };
 		A4A06E4921EF8CAC00922A15 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FavoriteViewController.swift; path = /Users/guillaumeramey/Projects/Reciplease/Reciplease/Controller/FavoriteViewController.swift; sourceTree = "<absolute>"; };
 		A4A06E4B21EF987E00922A15 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		A4A6E9B821F6F4A500DBAA66 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base.lproj; path = /Users/guillaumeramey/Projects/Reciplease/Reciplease/View/Base.lproj; sourceTree = "<absolute>"; };
 		A4B3664121EDE29D005474D6 /* RecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
 		A4ED9C9E21E37537009BC6D5 /* CustomRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipeCell.swift; sourceTree = "<group>"; };
 		C51301E94EEA0CC504E88AB7 /* Pods_RecipleaseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecipleaseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,6 +165,7 @@
 		A4A06E4821EF87F400922A15 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A4A6E9B821F6F4A500DBAA66 /* Base.lproj */,
 				A493D00C21E3292000CDB699 /* LaunchScreen.storyboard */,
 				A493D00421E3291E00CDB699 /* Main.storyboard */,
 				A4A06E4521EF813700922A15 /* RecipeCell.xib */,
@@ -179,6 +183,7 @@
 				A4A06E4221EEE89A00922A15 /* RecipeJSON.swift */,
 				A46A6B2C21EAF68500DF6F92 /* SearchResultsJSON.swift */,
 				A43A605221F4838400D4E5E3 /* Recipe.swift */,
+				A443D70F21F6BBD1007230E8 /* Favorite.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -369,6 +374,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A443D71021F6BBD1007230E8 /* Favorite.swift in Sources */,
 				A46A6B2B21EAEEF800DF6F92 /* ApiKeys.swift in Sources */,
 				A493D02421E3350B00CDB699 /* SearchViewController.swift in Sources */,
 				A493D00921E3291E00CDB699 /* Reciplease.xcdatamodeld in Sources */,

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class RecipeViewController: UIViewController {
 
@@ -20,10 +21,14 @@ class RecipeViewController: UIViewController {
     @IBOutlet weak var favoriteButton: UIBarButtonItem!
 
     var recipe: Recipe!
+    private var isFavorite: Bool {
+        return Favorite.all.contains(where: {$0.id == recipe.id})
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.scrollView.contentSize.width = 1.0
         getRecipe()
     }
 
@@ -45,6 +50,7 @@ class RecipeViewController: UIViewController {
         recipe.totalTime = json.totalTime
         recipe.imageBig = json.images[0].hostedLargeURL
         recipe.ingredientLines = json.ingredientLines
+        recipe.recipeURL = json.source.sourceRecipeURL
     }
 
     private func displayRecipe() {
@@ -53,26 +59,42 @@ class RecipeViewController: UIViewController {
         ingredients.text = "- " + recipe.ingredientLines.joined(separator: "\n- ")
         totalTime.text = recipe.totalTime
         servings.text = "\(recipe.numberOfServings) people"
-        
-        favoriteButton.tintColor = recipe.isFavorite ? UIColor(named: "Color_favorite_true") : UIColor(named: "Color_favorite_false")
+        updateFavoriteButtonColor()
+    }
+
+    private func updateFavoriteButtonColor() {
+        if isFavorite {
+            favoriteButton.tintColor = UIColor(named: "Color_favorite_true")
+        } else {
+            favoriteButton.tintColor = UIColor(named: "Color_favorite_false")
+        }
     }
 
     @IBAction func favoriteButtonPressed() {
-        recipe.isFavorite ? removeFromFavorites() : addToFavorites()
-        recipe.isFavorite.toggle()
+        isFavorite ? removeFromFavorites() : addToFavorites()
     }
 
     private func addToFavorites() {
-        favorites.append(recipe)
-        favoriteButton.tintColor = UIColor(named: "Color_favorite_true")
+        Favorite().create(from: recipe)
+        updateFavoriteButtonColor()
     }
 
     private func removeFromFavorites() {
-        if let index = favorites.firstIndex(where: {$0.id == recipe.id}) {
-            favorites.remove(at: index)
+        if Favorite().deleteFavorite(with: recipe.id) {
+            updateFavoriteButtonColor()
+        } else {
+            Alert.present(title: "Erreur", message: "Impossible de supprimer le favori", vc: self)
         }
-        favoriteButton.tintColor = UIColor(named: "Color_favorite_false")
     }
+
+    @IBAction func instructionsButtonPressed(_ sender: Any) {
+        guard let url = URL(string: recipe.recipeURL) else {
+            Alert.present(title: "Problème...", message: "Impossible d'ouvrir le lien vers les instructions.", vc: self)
+            return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
 }
 
 extension UIImageView {
