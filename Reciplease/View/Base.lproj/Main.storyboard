@@ -231,7 +231,7 @@
                         <outlet property="newIngredient" destination="uWk-Bo-EUO" id="cJ5-mt-Soq"/>
                         <outletCollection property="buttons" destination="fsx-EF-4p0" collectionClass="NSMutableArray" id="Ige-Cv-fAN"/>
                         <outletCollection property="buttons" destination="p1y-RS-Vib" collectionClass="NSMutableArray" id="nPQ-Jj-EnI"/>
-                        <outletCollection property="buttons" destination="RfA-dN-fZQ" collectionClass="NSMutableArray" id="vXJ-lv-Pe8"/>
+                        <outletCollection property="buttons" destination="RfA-dN-fZQ" collectionClass="NSMutableArray" id="8o2-n1-qq8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YVq-N0-xcW" sceneMemberID="firstResponder"/>
