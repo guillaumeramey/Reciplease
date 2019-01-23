@@ -18,6 +18,7 @@ class SearchService {
 
     func searchRecipes(with ingredients: [String], completion: @escaping (SearchResultsJSON?) -> Void) {
 
+        #warning("TODO: Convertir en UTF8")
         let url = searchUrl
             + "?_app_id=" + apiAppId
             + "&_app_key=" + apiKey
@@ -33,7 +34,7 @@ class SearchService {
                         let searchResultsJSON = try JSONDecoder().decode(SearchResultsJSON.self, from: jsonData)
                         completion(searchResultsJSON)
                     } catch let error {
-                        print("Erreur de formatage JSON :" + error.localizedDescription)
+                        print("Erreur de formatage JSON : \(error)")
                         completion(nil)
                     }
                 }
@@ -60,7 +61,7 @@ class SearchService {
                         let recipeDetailJSON = try JSONDecoder().decode(RecipeJSON.self, from: jsonData)
                         completion(recipeDetailJSON)
                     } catch let error {
-                        print("Erreur de formatage JSON :" + error.localizedDescription)
+                        print("Erreur de formatage JSON : \(error)")
                         completion(nil)
                     }
                 }

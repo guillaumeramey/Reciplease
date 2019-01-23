@@ -28,16 +28,22 @@ class RecipeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.scrollView.contentSize.width = 1.0
+        scrollView.isHidden = true
         getRecipe()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.showNavigationBar()
+    }
+    
     private func getRecipe() {
         activityIndicator.startAnimating()
         SearchService().getRecipe(id: recipe.id, completion: { (recipeJSON) in
             if let recipeJSON = recipeJSON {
                 self.updateRecipe(with: recipeJSON)
                 self.displayRecipe()
+                self.scrollView.isHidden = false
             } else {
                 self.recipeName.text = "Error getting recipe fom results"
             }
@@ -54,19 +60,25 @@ class RecipeViewController: UIViewController {
     }
 
     private func displayRecipe() {
-        recipeName.text = recipe.name
-        recipeImage.load(url: URL(string: recipe.imageBig)!)
-        ingredients.text = "- " + recipe.ingredientLines.joined(separator: "\n- ")
+        recipeName.text = recipe.recipeName
         totalTime.text = recipe.totalTime
-        servings.text = "\(recipe.numberOfServings) people"
+        if let urlString = recipe.imageBig, let url = URL(string: urlString) {
+            recipeImage.load(url: url)
+        }
+        if let ingredientLines = recipe.ingredientLines {
+            ingredients.text = "- " + ingredientLines.joined(separator: "\n- ")
+        }
+        if let numberOfServings = recipe.numberOfServings {
+            servings.text = "\(numberOfServings) people"
+        }
         updateFavoriteButtonColor()
     }
 
     private func updateFavoriteButtonColor() {
         if isFavorite {
-            favoriteButton.tintColor = UIColor(named: "Color_favorite_true")
+            favoriteButton.tintColor = UIColor(named: "Color_button")
         } else {
-            favoriteButton.tintColor = UIColor(named: "Color_favorite_false")
+            favoriteButton.tintColor = UIColor.lightGray
         }
     }
 
@@ -88,7 +100,7 @@ class RecipeViewController: UIViewController {
     }
 
     @IBAction func instructionsButtonPressed(_ sender: Any) {
-        guard let url = URL(string: recipe.recipeURL) else {
+        guard let urlString = recipe.recipeURL, let url = URL(string: urlString) else {
             Alert.present(title: "Problème...", message: "Impossible d'ouvrir le lien vers les instructions.", vc: self)
             return
         }

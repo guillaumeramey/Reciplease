@@ -16,7 +16,7 @@ class CustomRecipeCell: UITableViewCell {
     @IBOutlet var recipeRating: [UIImageView]!
 
     func set(recipe: Recipe) {
-        recipeName.text = recipe.name
+        recipeName.text = recipe.recipeName
 
         do {
             let data = try Data(contentsOf: URL(string: recipe.imageSmall)!)

@@ -8,23 +8,27 @@
 
 import Foundation
 
-class Recipe {
-    var isFavorite: Bool = false
+struct Recipe: Decodable {
     let id: String
-    let name: String
-    let imageSmall: String
+    let recipeName: String
     let rating: Int
     let ingredients: [String]
-    var imageBig: String = ""
-    var ingredientLines: [String] = []
-    var totalTime: String = ""
-    var numberOfServings: Int = 0
-    var recipeURL: String = ""
+    private let smallImageUrls: [String]
+    var imageSmall: String {
+        return smallImageUrls[0]
+    }
 
-    init(id: String, name: String, imageSmall: String, rating: Int, ingredients: [String]) {
+    // Recipe details
+    var imageBig: String?
+    var ingredientLines: [String]?
+    var totalTime: String?
+    var numberOfServings: Int?
+    var recipeURL: String?
+
+    init(id: String, recipeName: String, smallImageUrls: [String], rating: Int, ingredients: [String]) {
         self.id = id
-        self.name = name
-        self.imageSmall = imageSmall
+        self.recipeName = recipeName
+        self.smallImageUrls = smallImageUrls
         self.rating = rating
         self.ingredients = ingredients
     }

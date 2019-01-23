@@ -9,6 +9,8 @@ import UIKit
 
 class FavoriteViewController: UITableViewController {
 
+    @IBOutlet weak var noFavoriteLabel: UILabel!
+
     var recipes = [Recipe]()
     var selectedRow: Int!
 
@@ -19,7 +21,9 @@ class FavoriteViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.hideNavigationBar()
         recipes = Favorite.recipes
+        noFavoriteLabel.isHidden = recipes.isEmpty ? false : true
         tableView.reloadData()
     }
 

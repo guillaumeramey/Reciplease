@@ -11,15 +11,7 @@ import UIKit
 struct SearchResultsJSON: Decodable {
     let attribution: [String : String] // keys : html, url, text, logo
     let totalMatchCount: Int
-    let matches: [Match]
-
-    struct Match: Decodable {
-        let id: String
-        let rating: Int
-        let recipeName: String
-        let smallImageUrls: [String]
-        let ingredients: [String]
-    }
+    let matches: [Recipe]
 }
 
 

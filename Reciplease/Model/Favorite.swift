@@ -19,6 +19,10 @@ class Favorite: NSManagedObject {
         return favorites
     }
 
+    static var getIngredients: [String] {
+        return []
+    }
+
     static var recipes: [Recipe] {
         let request: NSFetchRequest<Favorite> = Favorite.fetchRequest()
         guard let favorites = try? AppDelegate.viewContext.fetch(request) else {
@@ -26,8 +30,16 @@ class Favorite: NSManagedObject {
         }
         var recipes = [Recipe]()
         for favorite in favorites {
-            if let id = favorite.id {
-                let recipe = Recipe(id: id, name: favorite.name!, imageSmall: favorite.imageSmall!, rating: Int(favorite.rating), ingredients: [])
+            if let id = favorite.id, let name = favorite.name, let image = favorite.imageSmall, let ingredients = favorite.ingredients {
+                #warning("TODO : mettre les ingrédients dans le bon ordre")
+
+                var ingredientList = [String]()
+                for ingredient in ingredients.allObjects as! [Ingredient] {
+                    ingredientList.append(ingredient.name ?? "Error")
+                }
+
+                let recipe = Recipe(id: id, recipeName: name, smallImageUrls: [image], rating: Int(favorite.rating), ingredients: ingredientList)
+
                 recipes.append(recipe)
             }
         }
@@ -37,7 +49,7 @@ class Favorite: NSManagedObject {
     func create(from recipe: Recipe) {
         let favorite = NSEntityDescription.insertNewObject(forEntityName: "Favorite", into: AppDelegate.viewContext) as! Favorite
         favorite.id = recipe.id
-        favorite.name = recipe.name
+        favorite.name = recipe.recipeName
         favorite.rating = Int16(recipe.rating)
         favorite.imageSmall = recipe.imageSmall
 
