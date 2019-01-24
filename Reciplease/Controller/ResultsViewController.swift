@@ -13,6 +13,7 @@ class ResultsViewController: UITableViewController {
     @IBOutlet weak var noResultsLabel: UILabel!
 
     var ingredients = [String]()
+    var maxTotalTimeInSeconds = 0
     var recipes = [Recipe]()
     var selectedRow: Int!
     
@@ -24,7 +25,7 @@ class ResultsViewController: UITableViewController {
     }
 
     private func searchRecipes() {
-        SearchService().searchRecipes(with: ingredients) { (searchResultsJSON) in
+        SearchService().searchRecipes(with: ingredients, maxTime: maxTotalTimeInSeconds) { (searchResultsJSON) in
             if let searchResultsJSON = searchResultsJSON {
                 self.recipes = searchResultsJSON.matches
                 self.tableView.reloadData()
@@ -48,9 +49,7 @@ class ResultsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "customRecipeCell") as? CustomRecipeCell else {
-            return UITableViewCell()
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customRecipeCell", for: indexPath) as! CustomRecipeCell
         cell.set(recipe: recipes[indexPath.row])
         return cell
     }
@@ -59,5 +58,11 @@ class ResultsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedRow = indexPath.row
         performSegue(withIdentifier: "recipeSelected", sender: self)
+    }
+}
+
+extension ResultsViewController: SearchServiceDelegate {
+    func alertUser(title: String, message: String) {
+        Alert.present(title: title, message: message, vc: self)
     }
 }

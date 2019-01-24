@@ -19,27 +19,12 @@ class Favorite: NSManagedObject {
         return favorites
     }
 
-    static var getIngredients: [String] {
-        return []
-    }
-
     static var recipes: [Recipe] {
-        let request: NSFetchRequest<Favorite> = Favorite.fetchRequest()
-        guard let favorites = try? AppDelegate.viewContext.fetch(request) else {
-            return []
-        }
         var recipes = [Recipe]()
-        for favorite in favorites {
+        for favorite in all {
             if let id = favorite.id, let name = favorite.name, let image = favorite.imageSmall, let ingredients = favorite.ingredients {
-                #warning("TODO : mettre les ingrédients dans le bon ordre")
-
-                var ingredientList = [String]()
-                for ingredient in ingredients.allObjects as! [Ingredient] {
-                    ingredientList.append(ingredient.name ?? "Error")
-                }
-
-                let recipe = Recipe(id: id, recipeName: name, smallImageUrls: [image], rating: Int(favorite.rating), ingredients: ingredientList)
-
+                let ingredientsArray = ingredients.components(separatedBy: ", ")
+                let recipe = Recipe(id: id, name: name, smallImageUrls: [image], rating: Int(favorite.rating), ingredients: ingredientsArray, totalTimeInSeconds : Int(favorite.totalTimeInSeconds))
                 recipes.append(recipe)
             }
         }
@@ -52,16 +37,12 @@ class Favorite: NSManagedObject {
         favorite.name = recipe.recipeName
         favorite.rating = Int16(recipe.rating)
         favorite.imageSmall = recipe.imageSmall
-
-        for ingredient in recipe.ingredients {
-            let newIngredient = Ingredient(context: AppDelegate.viewContext)
-            newIngredient.name = ingredient
-            favorite.addToIngredients(newIngredient)
-        }
+        favorite.ingredients = recipe.ingredients.joined(separator: ", ")
+        favorite.totalTimeInSeconds = Int16(recipe.totalTimeInSeconds)
         saveContext()
     }
 
-    func deleteFavorite(with id: String) -> Bool {
+    func delete(id: String) -> Bool {
         let request: NSFetchRequest<Favorite> = Favorite.fetchRequest()
         request.predicate = NSPredicate(format: "id = %@", id)
 
@@ -82,8 +63,4 @@ class Favorite: NSManagedObject {
             print(error)
         }
     }
-}
-
-class Ingredient: NSManagedObject {
-    
 }

@@ -31,17 +31,12 @@ class RecipeViewController: UIViewController {
         scrollView.isHidden = true
         getRecipe()
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.showNavigationBar()
-    }
     
     private func getRecipe() {
         activityIndicator.startAnimating()
         SearchService().getRecipe(id: recipe.id, completion: { (recipeJSON) in
             if let recipeJSON = recipeJSON {
-                self.updateRecipe(with: recipeJSON)
+                self.setUpRecipe(with: recipeJSON)
                 self.displayRecipe()
                 self.scrollView.isHidden = false
             } else {
@@ -51,7 +46,7 @@ class RecipeViewController: UIViewController {
         })
     }
 
-    private func updateRecipe(with json: RecipeJSON) {
+    private func setUpRecipe(with json: RecipeJSON) {
         recipe.numberOfServings = json.numberOfServings
         recipe.totalTime = json.totalTime
         recipe.imageBig = json.images[0].hostedLargeURL
@@ -92,7 +87,7 @@ class RecipeViewController: UIViewController {
     }
 
     private func removeFromFavorites() {
-        if Favorite().deleteFavorite(with: recipe.id) {
+        if Favorite().delete(id: recipe.id) {
             updateFavoriteButtonColor()
         } else {
             Alert.present(title: "Erreur", message: "Impossible de supprimer le favori", vc: self)
@@ -106,7 +101,12 @@ class RecipeViewController: UIViewController {
         }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
-    
+}
+
+extension RecipeViewController: SearchServiceDelegate {
+    func alertUser(title: String, message: String) {
+        Alert.present(title: title, message: message, vc: self)
+    }
 }
 
 extension UIImageView {

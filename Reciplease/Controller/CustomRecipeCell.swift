@@ -14,6 +14,7 @@ class CustomRecipeCell: UITableViewCell {
     @IBOutlet weak var recipeName: UILabel!
     @IBOutlet weak var recipeIngredients: UILabel!
     @IBOutlet var recipeRating: [UIImageView]!
+    @IBOutlet weak var recipeCookingTime: UILabel!
 
     func set(recipe: Recipe) {
         recipeName.text = recipe.recipeName
@@ -25,10 +26,15 @@ class CustomRecipeCell: UITableViewCell {
             recipeImage.image = UIImage(named: "noImage")!
         }
 
-        for index in 0 ..< recipe.rating {
-            recipeRating[index].image = UIImage(named: "star_true")
+        for view in recipeRating {
+            if view.tag <= recipe.rating {
+                view.image = UIImage(named: "star_true")
+            } else {
+                view.image = UIImage(named: "star_false")
+            }
         }
 
         recipeIngredients.text = recipe.ingredients.joined(separator: ", ")
+        recipeCookingTime.text = recipe.totalTimeInSeconds.convertToTimeString()
     }
 }

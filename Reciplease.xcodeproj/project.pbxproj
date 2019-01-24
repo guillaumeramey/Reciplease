@@ -23,7 +23,6 @@
 		A4A06E4321EEE89A00922A15 /* RecipeJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A06E4221EEE89A00922A15 /* RecipeJSON.swift */; };
 		A4A06E4721EF813700922A15 /* RecipeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A4A06E4521EF813700922A15 /* RecipeCell.xib */; };
 		A4A06E4A21EF8CAC00922A15 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A06E4921EF8CAC00922A15 /* FavoriteViewController.swift */; };
-		A4A06E4C21EF987E00922A15 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A06E4B21EF987E00922A15 /* NavigationController.swift */; };
 		A4B3664221EDE29D005474D6 /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B3664121EDE29D005474D6 /* RecipeViewController.swift */; };
 		A4DA762521F832AF00719A1B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DA762421F832AF00719A1B /* SearchViewController.swift */; };
 		A4DA762721F8333600719A1B /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DA762621F8333600719A1B /* ResultsViewController.swift */; };
@@ -68,7 +67,6 @@
 		A4A06E4221EEE89A00922A15 /* RecipeJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeJSON.swift; sourceTree = "<group>"; };
 		A4A06E4521EF813700922A15 /* RecipeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCell.xib; sourceTree = "<group>"; };
 		A4A06E4921EF8CAC00922A15 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FavoriteViewController.swift; path = /Users/guillaumeramey/Projects/Reciplease/Reciplease/Controller/FavoriteViewController.swift; sourceTree = "<absolute>"; };
-		A4A06E4B21EF987E00922A15 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		A4A6E9B821F6F4A500DBAA66 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base.lproj; path = /Users/guillaumeramey/Projects/Reciplease/Reciplease/View/Base.lproj; sourceTree = "<absolute>"; };
 		A4B3664121EDE29D005474D6 /* RecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
 		A4DA762421F832AF00719A1B /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -152,7 +150,6 @@
 		A493D02521E3353000CDB699 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				A4A06E4B21EF987E00922A15 /* NavigationController.swift */,
 				A4A06E4921EF8CAC00922A15 /* FavoriteViewController.swift */,
 				A4DA762421F832AF00719A1B /* SearchViewController.swift */,
 				A4DA762621F8333600719A1B /* ResultsViewController.swift */,
@@ -385,7 +382,6 @@
 				A4B3664221EDE29D005474D6 /* RecipeViewController.swift in Sources */,
 				A493D02D21E363F500CDB699 /* SearchService.swift in Sources */,
 				A43A605321F4838400D4E5E3 /* Recipe.swift in Sources */,
-				A4A06E4C21EF987E00922A15 /* NavigationController.swift in Sources */,
 				A4A06E4321EEE89A00922A15 /* RecipeJSON.swift in Sources */,
 				A46A6B2D21EAF68500DF6F92 /* SearchResultsJSON.swift in Sources */,
 				A4A06E4A21EF8CAC00922A15 /* FavoriteViewController.swift in Sources */,
