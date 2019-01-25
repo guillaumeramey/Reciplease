@@ -13,6 +13,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var newIngredient: UITextField!
     @IBOutlet weak var ingredientButton: UIButton!
+    @IBOutlet weak var selectCourseButton: UIButton!
     @IBOutlet var buttons: [UIButton]!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeSwitch: UISwitch!
@@ -28,10 +29,10 @@ class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpDisplay()
+        setup()
     }
 
-    private func setUpDisplay() {
+    private func setup() {
         for button in buttons {
             button.layer.cornerRadius = 5
         }
@@ -46,27 +47,43 @@ class SearchViewController: UIViewController {
             if timeSwitch.isOn {
                 resultsVC.maxTotalTimeInSeconds = maxTotalTimeInSeconds
             }
+            resultsVC.selectedCourses = courses.filter { $0.isSelected }
+        }
+        if segue.identifier == "segueFromSearchToCourses" {
+            let coursesVC = segue.destination as! CoursesViewController
+            coursesVC.delegate = self
         }
     }
 
+    private func showClearButton() {
+        if ingredientButton.tag == 1 {
+            ingredientButton.tag = 0
+            UIView.transition(with: ingredientButton, duration: 0.5, options: .transitionFlipFromRight, animations: {
+                self.ingredientButton.setImage(UIImage(named: "Button_clear_white"), for: .normal)
+            }, completion: nil)
+        }
+    }
+
+    private func showAddButton() {
+        if ingredientButton.tag == 0 {
+            ingredientButton.tag = 1
+            UIView.transition(with: ingredientButton, duration: 0.5, options: .transitionFlipFromLeft, animations: {
+                self.ingredientButton.setImage(UIImage(named: "Button_add_white"), for: .normal)
+            }, completion: nil)
+        }
+    }
+
+    // clear list or add ingredient to it depending on button tag
     @IBAction func ingredientButtonPressed(_ sender: UIButton!) {
-        if let title = ingredientButton.titleLabel?.text {
-            title == "Add" ? addIngredient() : clearIngredients()
-        }
-    }
-
-    private func addIngredient() {
-        if newIngredient.text != "" {
+        if ingredientButton.tag == 0 {
+            ingredients.removeAll()
+            ingredientsTableView.reloadData()
+        } else {
             ingredients.insert(newIngredient.text!, at: 0)
             ingredientsTableView.reloadData()
             newIngredient.text = ""
             dismissKeyboard(UITapGestureRecognizer())
         }
-    }
-
-    private func clearIngredients() {
-        ingredients.removeAll()
-        ingredientsTableView.reloadData()
     }
 
     @IBAction func timeSwitchValueChanged(_ sender: UISwitch) {
@@ -101,12 +118,18 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: UITextFieldDelegate {
     @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         newIngredient.resignFirstResponder()
-        newIngredient.text == "" ? ingredientButton.setTitle("Clear", for: .normal): nil
+        newIngredient.text == "" ? showClearButton() : showAddButton()
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        ingredientButton.setTitle("Add", for: .normal)
+        showAddButton()
     }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        ingredientButtonPressed(UIButton())
+        return true
+    }
+
 }
 
 extension Int {
@@ -118,6 +141,13 @@ extension Int {
         return timeString
     }
 }
+
+extension SearchViewController: CoursesViewControllerDelegate {
+    func setCourseButtonTitle(with title: String) {
+        selectCourseButton.setTitle(title, for: .normal)
+    }
+}
+
 
 /*
  allowedAllergy[] :

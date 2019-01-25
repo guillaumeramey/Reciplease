@@ -13,6 +13,7 @@ class ResultsViewController: UITableViewController {
     @IBOutlet weak var noResultsLabel: UILabel!
 
     var ingredients = [String]()
+    var selectedCourses = [Course]()
     var maxTotalTimeInSeconds = 0
     var recipes = [Recipe]()
     var selectedRow: Int!
@@ -25,7 +26,7 @@ class ResultsViewController: UITableViewController {
     }
 
     private func searchRecipes() {
-        SearchService().searchRecipes(with: ingredients, maxTime: maxTotalTimeInSeconds) { (searchResultsJSON) in
+        SearchService().searchRecipes(with: ingredients, maxTime: maxTotalTimeInSeconds, selectedCourses: selectedCourses) { (searchResultsJSON) in
             if let searchResultsJSON = searchResultsJSON {
                 self.recipes = searchResultsJSON.matches
                 self.tableView.reloadData()

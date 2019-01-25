@@ -20,7 +20,7 @@ struct RecipeJSON: Codable {
     let rating: Int
 
     struct Attributes: Codable {
-        let course: [String]
+        let course: [String]?
     }
 
     struct Image: Codable {

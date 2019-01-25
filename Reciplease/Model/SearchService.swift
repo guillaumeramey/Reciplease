@@ -21,15 +21,21 @@ class SearchService {
     private let apiAppId = "f53e19ba"
     private let apiKey = valueForAPIKey("yummly")
 
-    func searchRecipes(with ingredients: [String], maxTime: Int, completion: @escaping (SearchResultsJSON?) -> Void) {
+    func searchRecipes(with ingredients: [String], maxTime: Int, selectedCourses: [Course], completion: @escaping (SearchResultsJSON?) -> Void) {
 
         var urlString = searchUrl
             + "?_app_id=" + apiAppId
             + "&_app_key=" + apiKey
             + "&q=" + ingredients.joined(separator: "+")
+
         if maxTime > 0 {
             urlString += "&maxTotalTimeInSeconds=\(maxTime)"
         }
+        
+        for course in selectedCourses {
+            urlString += "&allowedCourse[]=course^course-" + course.name
+        }
+
         //            + "&excludedIngredient[]=" + "onion%20soup%20mix"
         //            + "&excludedIngredient[]=" + "gruyere"
 
