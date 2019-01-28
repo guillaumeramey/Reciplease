@@ -10,8 +10,6 @@ import UIKit
 
 class ResultsViewController: UITableViewController {
     
-    @IBOutlet weak var noResultsLabel: UILabel!
-
     var ingredients = [String]()
     var selectedCourses = [Course]()
     var maxTotalTimeInSeconds = 0
@@ -20,8 +18,8 @@ class ResultsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Results"
         tableView.register(UINib(nibName: "RecipeCell", bundle: nil), forCellReuseIdentifier: "customRecipeCell")
-
         searchRecipes()
     }
 
@@ -30,10 +28,12 @@ class ResultsViewController: UITableViewController {
             if let searchResultsJSON = searchResultsJSON {
                 self.recipes = searchResultsJSON.matches
                 self.tableView.reloadData()
+                // patch : bug displaying cells
+                self.tableView.layoutIfNeeded()
+                self.tableView.reloadData()
             } else {
                 print("Error getting results from search")
             }
-            self.noResultsLabel.isHidden = self.recipes.isEmpty ? false : true
         }
     }
 

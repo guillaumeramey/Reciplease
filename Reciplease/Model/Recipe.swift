@@ -18,6 +18,13 @@ struct Recipe: Decodable {
     var imageSmall: String {
         return smallImageUrls[0]
     }
+    private let attributes: Attributes
+    struct Attributes: Codable {
+        let course: [String]?
+    }
+    var course: String? {
+        return attributes.course?[0]
+    }
 
     // Recipe details
     var imageBig: String?
@@ -26,12 +33,13 @@ struct Recipe: Decodable {
     var numberOfServings: Int?
     var recipeURL: String?
 
-    init(id: String, name: String, smallImageUrls: [String], rating: Int, ingredients: [String], totalTimeInSeconds: Int) {
+    init(id: String, name: String, smallImageUrls: [String], rating: Int, ingredients: [String], totalTimeInSeconds: Int, course: String) {
         self.id = id
         self.recipeName = name
         self.smallImageUrls = smallImageUrls
         self.rating = rating
         self.ingredients = ingredients
         self.totalTimeInSeconds = totalTimeInSeconds
+        attributes = Attributes(course: [course])
     }
 }

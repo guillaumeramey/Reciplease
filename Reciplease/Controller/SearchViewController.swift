@@ -33,6 +33,7 @@ class SearchViewController: UIViewController {
     }
 
     private func setup() {
+        self.title = "Reciplease"
         for button in buttons {
             button.layer.cornerRadius = 5
         }
@@ -79,10 +80,12 @@ class SearchViewController: UIViewController {
             ingredients.removeAll()
             ingredientsTableView.reloadData()
         } else {
-            ingredients.insert(newIngredient.text!, at: 0)
-            ingredientsTableView.reloadData()
-            newIngredient.text = ""
-            dismissKeyboard(UITapGestureRecognizer())
+            if newIngredient.text != "" {
+                ingredients.insert(newIngredient.text!, at: 0)
+                ingredientsTableView.reloadData()
+                newIngredient.text = ""
+                dismissKeyboard(UITapGestureRecognizer())
+            }
         }
     }
 

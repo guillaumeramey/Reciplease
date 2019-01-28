@@ -24,10 +24,17 @@ class RecipeViewController: UIViewController {
     private var isFavorite: Bool {
         return Favorite.all.contains(where: {$0.id == recipe.id})
     }
+    private var recipeUrl: URL? {
+        if let urlString = recipe.recipeURL, let url = URL(string: urlString) {
+            return url
+        } else {
+            Alert.present(title: "Invalid URL", message: "The link for this recipe is invalid.", vc: self)
+            return nil
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         scrollView.isHidden = true
         getRecipe()
     }
@@ -49,7 +56,7 @@ class RecipeViewController: UIViewController {
     private func setUpRecipe(with json: RecipeJSON) {
         recipe.numberOfServings = json.numberOfServings
         recipe.totalTime = json.totalTime
-        recipe.imageBig = json.images[0].hostedLargeURL
+        recipe.imageBig = json.images[0].imageUrlsBySize["360"]
         recipe.ingredientLines = json.ingredientLines
         recipe.recipeURL = json.source.sourceRecipeURL
     }
@@ -57,25 +64,28 @@ class RecipeViewController: UIViewController {
     private func displayRecipe() {
         recipeName.text = recipe.recipeName
         totalTime.text = recipe.totalTime
+
         if let urlString = recipe.imageBig, let url = URL(string: urlString) {
-            recipeImage.load(url: url)
+            SearchService().getImage(from: url, completion: { (image) in
+                if let image = image {
+                    self.recipeImage.image = image
+                } else {
+                    self.recipeImage.isHidden = true
+                }
+            })
+        } else {
+            recipeImage.isHidden = true
         }
+
         if let ingredientLines = recipe.ingredientLines {
             ingredients.text = "- " + ingredientLines.joined(separator: "\n- ")
         }
         if let numberOfServings = recipe.numberOfServings {
             servings.text = "\(numberOfServings) people"
         }
-        updateFavoriteButtonColor()
+        updateFavoriteButtonImage()
     }
 
-    private func updateFavoriteButtonColor() {
-        if isFavorite {
-            favoriteButton.tintColor = UIColor(named: "Color_button")
-        } else {
-            favoriteButton.tintColor = UIColor.lightGray
-        }
-    }
 
     @IBAction func favoriteButtonPressed() {
         isFavorite ? removeFromFavorites() : addToFavorites()
@@ -83,42 +93,39 @@ class RecipeViewController: UIViewController {
 
     private func addToFavorites() {
         Favorite().create(from: recipe)
-        updateFavoriteButtonColor()
+        updateFavoriteButtonImage()
     }
 
     private func removeFromFavorites() {
         if Favorite().delete(id: recipe.id) {
-            updateFavoriteButtonColor()
+            updateFavoriteButtonImage()
         } else {
-            Alert.present(title: "Erreur", message: "Impossible de supprimer le favori", vc: self)
+            Alert.present(title: "Erreur", message: "Impossible de supprimer la recette des favoris.", vc: self)
         }
     }
 
+    private func updateFavoriteButtonImage() {
+        favoriteButton.image = isFavorite ? UIImage(named: "star_true") : UIImage(named: "star_false")
+    }
+
     @IBAction func instructionsButtonPressed(_ sender: Any) {
-        guard let urlString = recipe.recipeURL, let url = URL(string: urlString) else {
-            Alert.present(title: "Problème...", message: "Impossible d'ouvrir le lien vers les instructions.", vc: self)
-            return
+        if let url = recipeUrl {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
+    @IBAction func shareButtonPressed(_ sender: Any) {
+        if let url = recipeUrl {
+            let message = "Look at this recipe I found on Reciplease !"
+            let items: [Any] = [message, url]
+            let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            present(activityVC, animated: true, completion: nil)
+        }
     }
 }
 
 extension RecipeViewController: SearchServiceDelegate {
     func alertUser(title: String, message: String) {
         Alert.present(title: title, message: message, vc: self)
-    }
-}
-
-extension UIImageView {
-    func load(url: URL) {
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
-                    }
-                }
-            }
-        }
     }
 }

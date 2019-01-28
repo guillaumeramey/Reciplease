@@ -17,20 +17,33 @@ class CustomRecipeCell: UITableViewCell {
     @IBOutlet weak var recipeCookingTime: UILabel!
 
     func set(recipe: Recipe) {
+        recipeImage.layer.borderWidth = 4
+        recipeImage.layer.cornerRadius = 10
+
         recipeName.text = recipe.recipeName
 
-        do {
-            let data = try Data(contentsOf: URL(string: recipe.imageSmall)!)
-            recipeImage.image = UIImage(data: data) ?? UIImage(named: "noImage")!
-        } catch {
-            recipeImage.image = UIImage(named: "noImage")!
+        if let course = courses.first(where: {$0.name == recipe.course}) {
+            recipeImage.layer.borderColor = course.color.cgColor
+            recipeName.textColor = course.color
         }
 
-        for view in recipeRating {
-            if view.tag <= recipe.rating {
-                view.image = UIImage(named: "star_true")
+        if let url = URL(string: recipe.imageSmall) {
+            SearchService().getImage(from: url, completion: { (image) in
+                if let image = image {
+                    self.recipeImage.image = image
+                } else {
+                    self.recipeImage.image = UIImage(named: "noImage")
+                }
+            })
+        } else {
+            self.recipeImage.image = UIImage(named: "noImage")
+        }
+
+        for star in recipeRating {
+            if star.tag <= recipe.rating {
+                star.image = UIImage(named: "star_true")
             } else {
-                view.image = UIImage(named: "star_false")
+                star.image = UIImage(named: "star_false")
             }
         }
 

@@ -22,9 +22,9 @@ class Favorite: NSManagedObject {
     static var recipes: [Recipe] {
         var recipes = [Recipe]()
         for favorite in all {
-            if let id = favorite.id, let name = favorite.name, let image = favorite.imageSmall, let ingredients = favorite.ingredients {
+            if let id = favorite.id, let name = favorite.name, let image = favorite.imageSmall, let ingredients = favorite.ingredients, let course = favorite.course {
                 let ingredientsArray = ingredients.components(separatedBy: ", ")
-                let recipe = Recipe(id: id, name: name, smallImageUrls: [image], rating: Int(favorite.rating), ingredients: ingredientsArray, totalTimeInSeconds : Int(favorite.totalTimeInSeconds))
+                let recipe = Recipe(id: id, name: name, smallImageUrls: [image], rating: Int(favorite.rating), ingredients: ingredientsArray, totalTimeInSeconds : Int(favorite.totalTimeInSeconds), course: course)
                 recipes.append(recipe)
             }
         }
@@ -39,6 +39,7 @@ class Favorite: NSManagedObject {
         favorite.imageSmall = recipe.imageSmall
         favorite.ingredients = recipe.ingredients.joined(separator: ", ")
         favorite.totalTimeInSeconds = Int16(recipe.totalTimeInSeconds)
+        favorite.course = recipe.course
         saveContext()
     }
 

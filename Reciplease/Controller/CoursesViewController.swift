@@ -64,6 +64,7 @@ extension CoursesViewController: UITableViewDataSource {
         let course = courses[indexPath.row]
         cell.textLabel?.text = course.name
         cell.accessoryType = course.isSelected ? .checkmark : .none
+        cell.textLabel?.textColor = course.color
         return cell
     }
 }
