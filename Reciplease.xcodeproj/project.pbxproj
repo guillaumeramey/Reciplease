@@ -29,6 +29,7 @@
 		A4DA763121F9D63500719A1B /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DA763021F9D63400719A1B /* Course.swift */; };
 		A4DA763321FAA0C400719A1B /* CoursesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DA763221FAA0C400719A1B /* CoursesViewController.swift */; };
 		A4ED9C9F21E37537009BC6D5 /* CustomRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ED9C9E21E37537009BC6D5 /* CustomRecipeCell.swift */; };
+		A4FCF2712208024C000959D6 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FCF2702208024C000959D6 /* CoreDataStack.swift */; };
 		B2421BA7245F6E4F636A5362 /* Pods_Reciplease.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55DD7FFF9B916466ACEDF90B /* Pods_Reciplease.framework */; };
 		E99A7DB071916F27EEB76CC7 /* Pods_RecipleaseTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C51301E94EEA0CC504E88AB7 /* Pods_RecipleaseTests.framework */; };
 /* End PBXBuildFile section */
@@ -76,6 +77,7 @@
 		A4DA763021F9D63400719A1B /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		A4DA763221FAA0C400719A1B /* CoursesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesViewController.swift; sourceTree = "<group>"; };
 		A4ED9C9E21E37537009BC6D5 /* CustomRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipeCell.swift; sourceTree = "<group>"; };
+		A4FCF2702208024C000959D6 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		C51301E94EEA0CC504E88AB7 /* Pods_RecipleaseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecipleaseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -187,6 +189,7 @@
 				A43A605221F4838400D4E5E3 /* Recipe.swift */,
 				A443D70F21F6BBD1007230E8 /* Favorite.swift */,
 				A4DA763021F9D63400719A1B /* Course.swift */,
+				A4FCF2702208024C000959D6 /* CoreDataStack.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				A4DA763321FAA0C400719A1B /* CoursesViewController.swift in Sources */,
 				A493D02D21E363F500CDB699 /* SearchService.swift in Sources */,
 				A43A605321F4838400D4E5E3 /* Recipe.swift in Sources */,
+				A4FCF2712208024C000959D6 /* CoreDataStack.swift in Sources */,
 				A4A06E4321EEE89A00922A15 /* RecipeJSON.swift in Sources */,
 				A4DA763121F9D63500719A1B /* Course.swift in Sources */,
 				A46A6B2D21EAF68500DF6F92 /* SearchResultsJSON.swift in Sources */,
