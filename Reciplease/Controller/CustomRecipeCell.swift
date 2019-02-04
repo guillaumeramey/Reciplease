@@ -10,6 +10,7 @@ import UIKit
 
 class CustomRecipeCell: UITableViewCell {
 
+    @IBOutlet weak var background: UIView!
     @IBOutlet weak var recipeImage: UIImageView!
     @IBOutlet weak var recipeName: UILabel!
     @IBOutlet weak var recipeIngredients: UILabel!
@@ -17,26 +18,27 @@ class CustomRecipeCell: UITableViewCell {
     @IBOutlet weak var recipeCookingTime: UILabel!
 
     func set(recipe: Recipe) {
-        recipeImage.layer.borderWidth = 4
-        recipeImage.layer.cornerRadius = 10
+        resetCell()
+
+        recipeImage.layer.borderWidth = 2
+        recipeImage.layer.cornerRadius = 20
+        recipeImage.layer.borderColor = UIColor.white.cgColor
 
         recipeName.text = recipe.recipeName
 
-        if let course = courses.first(where: {$0.name == recipe.course}) {
-            recipeImage.layer.borderColor = course.color.cgColor
-            recipeName.textColor = course.color
+        background.layer.borderWidth = 2
+        background.layer.cornerRadius = 20
+        background.layer.borderColor = UIColor.white.cgColor
+        if let course = Constants.courses.first(where: {$0.name == recipe.course}) {
+            background.backgroundColor = course.color
         }
 
         if let url = URL(string: recipe.imageSmall) {
             SearchService().getImage(from: url, completion: { (image) in
                 if let image = image {
                     self.recipeImage.image = image
-                } else {
-                    self.recipeImage.image = UIImage(named: "noImage")
                 }
             })
-        } else {
-            self.recipeImage.image = UIImage(named: "noImage")
         }
 
         for star in recipeRating {
@@ -48,6 +50,17 @@ class CustomRecipeCell: UITableViewCell {
         }
 
         recipeIngredients.text = recipe.ingredients.joined(separator: ", ")
-        recipeCookingTime.text = recipe.totalTimeInSeconds.convertToTimeString()
+        recipeCookingTime.text = recipe.totalTimeInSeconds?.convertToTimeString()
+    }
+
+    private func resetCell() {
+        background.backgroundColor = UIColor.lightGray
+        recipeName.text = ""
+        recipeImage.image = UIImage(named: "noImage")
+        recipeIngredients.text = ""
+        recipeCookingTime.text = ""
+        for star in recipeRating {
+            star.image = UIImage(named: "star_false")
+        }
     }
 }

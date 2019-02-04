@@ -38,7 +38,7 @@ class Favorite: NSManagedObject {
         favorite.rating = Int16(recipe.rating)
         favorite.imageSmall = recipe.imageSmall
         favorite.ingredients = recipe.ingredients.joined(separator: ", ")
-        favorite.totalTimeInSeconds = Int16(recipe.totalTimeInSeconds)
+        favorite.totalTimeInSeconds = Int16(recipe.totalTimeInSeconds ?? 0)
         favorite.course = recipe.course
         saveContext()
     }

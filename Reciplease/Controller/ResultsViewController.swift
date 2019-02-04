@@ -13,32 +13,43 @@ class ResultsViewController: UITableViewController {
     var ingredients = [String]()
     var selectedCourses = [Course]()
     var maxTotalTimeInSeconds = 0
-    var recipes = [Recipe]()
-    var selectedRow: Int!
-    
+    private var recipes = [Recipe]()
+    private var selectedRow: Int!
+    private var isLoading = false
+    private var startIndex = 0
+    private let cellId = "customRecipeCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Results"
-        tableView.register(UINib(nibName: "RecipeCell", bundle: nil), forCellReuseIdentifier: "customRecipeCell")
-        searchRecipes()
+        tableView.register(UINib(nibName: "RecipeCell", bundle: nil), forCellReuseIdentifier: cellId)
     }
 
+    // request new data
     private func searchRecipes() {
-        SearchService().searchRecipes(with: ingredients, maxTime: maxTotalTimeInSeconds, selectedCourses: selectedCourses) { (searchResultsJSON) in
+        SearchService().searchRecipes(with: ingredients, maxTime: maxTotalTimeInSeconds, selectedCourses: selectedCourses, startIndex: startIndex) { (searchResultsJSON) in
             if let searchResultsJSON = searchResultsJSON {
-                self.recipes = searchResultsJSON.matches
-                self.tableView.reloadData()
-                // patch : bug displaying cells
-                self.tableView.layoutIfNeeded()
-                self.tableView.reloadData()
+                self.recipes.append(contentsOf: searchResultsJSON.matches)
+                self.updateTableView()
             } else {
-                print("Error getting results from search")
+                Alert.present(title: "Network error", message: "Something went wrong, verify your connexion.", vc: self)
             }
+            self.isLoading = false
         }
     }
 
+    // add the data to the tableview
+    private func updateTableView() {
+        tableView.beginUpdates()
+        for row in startIndex ..< recipes.count {
+            tableView.insertRows(at: [IndexPath(row: row, section: 0)], with: .none)
+        }
+        tableView.endUpdates()
+        startIndex = recipes.count
+    }
+
+    // segue to the selected recipe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "recipeSelected" {
+        if segue.identifier == Constants.recipeSelectedSegue {
             let recipeVC = segue.destination as! RecipeViewController
             recipeVC.recipe = recipes[selectedRow]
         }
@@ -48,9 +59,9 @@ class ResultsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return recipes.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customRecipeCell", for: indexPath) as! CustomRecipeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomRecipeCell
         cell.set(recipe: recipes[indexPath.row])
         return cell
     }
@@ -58,7 +69,19 @@ class ResultsViewController: UITableViewController {
     // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedRow = indexPath.row
-        performSegue(withIdentifier: "recipeSelected", sender: self)
+        performSegue(withIdentifier: Constants.recipeSelectedSegue, sender: self)
+    }
+
+    // fetch new data when the user scrolls
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offSetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let boundsHeight = scrollView.bounds.size.height
+
+        if isLoading == false && offSetY + (boundsHeight * 1.5) > contentHeight {
+            isLoading = true
+            searchRecipes()
+        }
     }
 }
 

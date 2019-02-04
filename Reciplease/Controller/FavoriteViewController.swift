@@ -21,28 +21,23 @@ class FavoriteViewController: UITableViewController {
         }
     }
 
-    var tableViewData = [SectionData]()
     var selectedRecipe: Recipe!
-    let cellId = "customRecipeCell"
+    private var tableViewData = [SectionData]()
+    private let cellId = "customRecipeCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Favorites"
         tableView.register(UINib(nibName: "RecipeCell", bundle: nil), forCellReuseIdentifier: cellId)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setTableViewData()
-        tableView.reloadData()
-        // patch : bug when displaying cells
-        tableView.layoutIfNeeded()
-        tableView.reloadData()
+        updateData()
     }
 
-    private func setTableViewData() {
+    private func updateData() {
         var data = [SectionData]()
-        for course in courses {
+        for course in Constants.courses {
             let sectionRecipes = Favorite.recipes.filter{$0.course == course.name}
             if sectionRecipes.isEmpty == false {
                 let title = sectionRecipes[0].course ?? "No category"
@@ -50,10 +45,11 @@ class FavoriteViewController: UITableViewController {
             }
         }
         tableViewData = data
+        tableView.reloadData()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "recipeSelected" {
+        if segue.identifier == Constants.recipeSelectedSegue {
             let recipeVC = segue.destination as! RecipeViewController
             recipeVC.recipe = selectedRecipe
         }
@@ -61,44 +57,46 @@ class FavoriteViewController: UITableViewController {
 
     @objc private func toggleExpansion(_ sender: UIButton) {
         tableViewData[sender.tag].isExpanded.toggle()
-        if tableViewData[sender.tag].isExpanded {
-            tableView.reloadSections([sender.tag], with: UITableView.RowAnimation.bottom)
-        } else {
-            tableView.reloadSections([sender.tag], with: UITableView.RowAnimation.top)
-        }
+        tableView.reloadSections([sender.tag], with: .none)
     }
 
     @IBAction func expandAll() {
-        toggleAllSections(isExpanded: true)
+        toggleAllSections(expand: true)
     }
 
     @IBAction func collapseAll() {
-        toggleAllSections(isExpanded: false)
+        toggleAllSections(expand: false)
     }
 
-    private func toggleAllSections(isExpanded: Bool) {
-        _ = tableViewData.map {$0.isExpanded = isExpanded}
-        tableView.reloadSections(IndexSet(0 ..< tableViewData.count), with: UITableView.RowAnimation.automatic)
+    private func toggleAllSections(expand: Bool) {
+        _ = tableViewData.map {$0.isExpanded = expand}
+        tableView.reloadSections(IndexSet(0 ..< tableViewData.count), with: .automatic)
     }
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = courses.first(where: {$0.name == tableViewData[section].title})?.color
+        return cellCourseView(section: section)
+    }
+
+    private func cellCourseView(section: Int) -> UIView {
         let button = UIButton()
         button.setTitle(tableViewData[section].title, for: .normal)
-        button.contentHorizontalAlignment = .leading
-        button.titleLabel?.font = UIFont(name: "Noteworthy-Bold", size: 20)
-        button.setTitleColor(UIColor(named: "Color_button_text"), for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNextCondensed-Medium", size: 25)
+        button.contentHorizontalAlignment = .left
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.addTarget(self, action: #selector(toggleExpansion), for: .touchUpInside)
         button.tag = section
-        view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-        button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
-        button.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        button.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        return view
+        button.backgroundColor = Constants.courses.first(where: {$0.name == tableViewData[section].title})?.color
+
+        let imageName = tableViewData[section].isExpanded ? "Button_collapse" : "Button_expand"
+        let image = UIImageView(image: UIImage(named: imageName))
+        button.addSubview(image)
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
+        image.rightAnchor.constraint(equalTo: button.rightAnchor, constant: -10).isActive = true
+
+        return button
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -118,6 +116,6 @@ class FavoriteViewController: UITableViewController {
     // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedRecipe = tableViewData[indexPath.section].recipes[indexPath.row]
-        performSegue(withIdentifier: "recipeSelected", sender: self)
+        performSegue(withIdentifier: Constants.recipeSelectedSegue, sender: self)
     }
 }

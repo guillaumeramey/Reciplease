@@ -32,19 +32,19 @@ class CoursesViewController: UIViewController {
     }
 
     @IBAction func checkButtonPressed(_ sender: Any) {
-        _ = courses.map { $0.isSelected = true }
+        _ = Constants.courses.map { $0.isSelected = true }
         courseTableView.reloadData()
     }
 
     @IBAction func uncheckButtonPressed(_ sender: Any) {
-        _ = courses.map { $0.isSelected = false }
+        _ = Constants.courses.map { $0.isSelected = false }
         courseTableView.reloadData()
     }
 
     @IBAction func doneButtonPressed(_ sender: Any) {
-        let selectedCourses = courses.filter{$0.isSelected}.count
+        let selectedCourses = Constants.courses.filter{$0.isSelected}.count
         var title = ""
-        if selectedCourses == courses.count || selectedCourses == 0 {
+        if selectedCourses == Constants.courses.count || selectedCourses == 0 {
             title = "All"
         } else {
             title = selectedCourses.description
@@ -56,12 +56,12 @@ class CoursesViewController: UIViewController {
 
 extension CoursesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return courses.count
+        return Constants.courses.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "courseCell", for: indexPath)
-        let course = courses[indexPath.row]
+        let course = Constants.courses[indexPath.row]
         cell.textLabel?.text = course.name
         cell.accessoryType = course.isSelected ? .checkmark : .none
         cell.textLabel?.textColor = course.color
@@ -71,7 +71,7 @@ extension CoursesViewController: UITableViewDataSource {
 
 extension CoursesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        courses[indexPath.row].isSelected.toggle()
+        Constants.courses[indexPath.row].isSelected.toggle()
         tableView.reloadData()
     }
 }

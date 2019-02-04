@@ -12,7 +12,7 @@ struct Recipe: Decodable {
     let id: String
     let recipeName: String
     let rating: Int
-    let totalTimeInSeconds: Int
+    let totalTimeInSeconds: Int?
     let ingredients: [String]
     private let smallImageUrls: [String]
     var imageSmall: String {
@@ -23,7 +23,7 @@ struct Recipe: Decodable {
         let course: [String]?
     }
     var course: String? {
-        return attributes.course?[0]
+        return attributes.course?[0] ?? "Unclassified"
     }
 
     // Recipe details

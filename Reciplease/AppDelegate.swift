@@ -19,10 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
 
         UINavigationBar.appearance().titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont(name: "Noteworthy-Bold", size: 20)!
+            NSAttributedString.Key.font: UIFont(name: "AvenirNextCondensed-Medium", size: 30)!
         ]
 
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Noteworthy-Light", size: 20)!], for: UIControl.State.normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "AvenirNextCondensed-Medium", size: 20)!], for: UIControl.State.normal)
 
         return true
     }

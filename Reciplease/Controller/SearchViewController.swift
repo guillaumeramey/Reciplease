@@ -33,7 +33,6 @@ class SearchViewController: UIViewController {
     }
 
     private func setup() {
-        self.title = "Reciplease"
         for button in buttons {
             button.layer.cornerRadius = 5
         }
@@ -48,7 +47,7 @@ class SearchViewController: UIViewController {
             if timeSwitch.isOn {
                 resultsVC.maxTotalTimeInSeconds = maxTotalTimeInSeconds
             }
-            resultsVC.selectedCourses = courses.filter { $0.isSelected }
+            resultsVC.selectedCourses = Constants.courses.filter { $0.isSelected }
         }
         if segue.identifier == "segueFromSearchToCourses" {
             let coursesVC = segue.destination as! CoursesViewController
@@ -150,19 +149,3 @@ extension SearchViewController: CoursesViewControllerDelegate {
         selectCourseButton.setTitle(title, for: .normal)
     }
 }
-
-
-/*
- allowedAllergy[] :
- Specifying an allowedAllergy[] parameter means that search results will only include recipes whose ingredients are allowed for that allergy. This parameter must be set equal to a searchValue in the Search Metadata Dicionary and can be repeated more than once to specify more than one allergy.
-
- To search for “Onion Soup” recipes that are Dairy-Free and Gluten-Free append &allowedAllergy[]=396^Dairy-Free&allowedAllergy[]=393^Gluten-Free
-
- For example:
- http://api.yummly.com/v1/api/recipes?_app_id=YOUR_ID&_app_key=YOUR_APP_KEY&q=onion+soup&allowedAllergy[]=396^Dairy-Free&allowedAllergy[]=393^Gluten-Free
-
- The allowedAllergy[] parameter must be set equal to a searchValue found in the Yummly Search Metadata Dictionaries. An example of an allowedAllergy[] searchValue is "393^Gluten-Free" to indicate you want Gluten Free recipes. To access the metadata dictionary for allowedAllergy[] searchValues, use the following end point: http://api.yummly.com/v1/api/metadata/allergy?_app_id=YOUR_ID&_app_key=YOUR_APP_KEY
-
- Supported Allergies
- Dairy, Egg, Gluten, Peanut, Seafood, Sesame, Soy, Sulfite, Tree Nut, Wheat
- */

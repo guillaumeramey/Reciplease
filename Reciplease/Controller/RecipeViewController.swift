@@ -105,7 +105,8 @@ class RecipeViewController: UIViewController {
     }
 
     private func updateFavoriteButtonImage() {
-        favoriteButton.image = isFavorite ? UIImage(named: "star_true") : UIImage(named: "star_false")
+        let imageString = isFavorite ? "Button_star_true" : "Button_star_false"
+        favoriteButton.image = UIImage(named: imageString)
     }
 
     @IBAction func instructionsButtonPressed(_ sender: Any) {
