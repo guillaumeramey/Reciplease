@@ -94,8 +94,8 @@
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="25"/>
-                            <color key="textColor" name="Color_text"/>
+                            <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="30"/>
+                            <color key="textColor" name="Color_button"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -479,7 +479,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="25"/>
-                            <color key="textColor" name="Color_text"/>
+                            <color key="textColor" name="Color_button"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -662,18 +662,18 @@
         <namedColor name="Color_button">
             <color red="0.94117647058823528" green="0.36470588235294116" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="Color_button">
+            <color red="0.94117647058823528" green="0.36470588235294116" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Color_button_text">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Color_text">
             <color red="0.14901960784313725" green="0.047058823529411764" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="Color_text">
-            <color red="0.14901960784313725" green="0.047058823529411764" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Dej-qu-Xnw"/>
+        <segue reference="zZf-mQ-aay"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="Color_button"/>
 </document>

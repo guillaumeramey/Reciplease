@@ -7,6 +7,7 @@ target 'Reciplease' do
 
   # Pods for Reciplease
 pod 'Alamofire', '~> 5.0.0.beta.1'
+pod 'SwiftyJSON', '~> 4.0'
 
   target 'RecipleaseTests' do
     inherit! :search_paths

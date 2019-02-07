@@ -3,11 +3,11 @@
     <entity name="Favorite" representedClassName=".Favorite" syncable="YES" codeGenerationType="category">
         <attribute name="course" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
-        <attribute name="imageSmall" attributeType="String" syncable="YES"/>
+        <attribute name="imageSmall" attributeType="URI" syncable="YES"/>
         <attribute name="ingredients" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="rating" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="totalTimeInSeconds" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="totalTimeInSeconds" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
         <element name="Favorite" positionX="-63" positionY="-18" width="128" height="150"/>

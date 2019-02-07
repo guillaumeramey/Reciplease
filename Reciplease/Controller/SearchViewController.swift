@@ -21,7 +21,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var timeSliderStackView: UIStackView!
 
     var ingredients = [String]()
-    var maxTotalTimeInSeconds = 0 {
+    var maxTotalTimeInSeconds:Int32 = 0 {
         willSet {
             timeLabel.text = newValue.convertToTimeString()
         }
@@ -36,7 +36,7 @@ class SearchViewController: UIViewController {
         for button in buttons {
             button.layer.cornerRadius = 5
         }
-        maxTotalTimeInSeconds = Int(timeSlider.value)
+        maxTotalTimeInSeconds = Int32(timeSlider.value)
         timeSliderStackView.isHidden = true
     }
 
@@ -93,7 +93,7 @@ class SearchViewController: UIViewController {
     }
 
     @IBAction func timeSliderValueChanged(_ sender: UISlider) {
-        maxTotalTimeInSeconds = Int(sender.value)
+        maxTotalTimeInSeconds = Int32(sender.value)
     }
 }
 
@@ -134,7 +134,7 @@ extension SearchViewController: UITextFieldDelegate {
 
 }
 
-extension Int {
+extension Int32 {
     func convertToTimeString() -> String {
         let hours = self / 3600
         let minutes = (self % 3600) / 60

@@ -7,39 +7,65 @@
 //
 
 import Foundation
+import CoreData
 
-struct Recipe: Decodable {
+struct Recipe {
     let id: String
     let recipeName: String
-    let rating: Int
-    let totalTimeInSeconds: Int?
+    let rating: Int16
+    let totalTimeInSeconds: Int32?
     let ingredients: [String]
-    private let smallImageUrls: [String]
-    var imageSmall: String {
-        return smallImageUrls[0]
-    }
-    private let attributes: Attributes
-    struct Attributes: Codable {
-        let course: [String]?
-    }
-    var course: String? {
-        return attributes.course?[0] ?? "Unclassified"
-    }
+    let imageSmall: URL?
+    let course: String?
 
     // Recipe details
-    var imageBig: String?
+    var imageBig: URL?
     var ingredientLines: [String]?
     var totalTime: String?
     var numberOfServings: Int?
-    var recipeURL: String?
+    var recipeURL: URL?
 
-    init(id: String, name: String, smallImageUrls: [String], rating: Int, ingredients: [String], totalTimeInSeconds: Int, course: String) {
+    init(id: String, name: String, imageSmall: URL, rating: Int16, ingredients: [String], totalTimeInSeconds: Int32, course: String) {
         self.id = id
         self.recipeName = name
-        self.smallImageUrls = smallImageUrls
+        self.imageSmall = imageSmall
         self.rating = rating
         self.ingredients = ingredients
         self.totalTimeInSeconds = totalTimeInSeconds
-        attributes = Attributes(course: [course])
+        self.course = course
+    }
+
+    func addToFavorites() -> Bool {
+        let favorite = NSEntityDescription.insertNewObject(forEntityName: "Favorite", into: AppDelegate.viewContext) as! Favorite
+        favorite.id = id
+        favorite.name = recipeName
+        favorite.rating = rating
+        favorite.imageSmall = imageSmall
+        favorite.ingredients = ingredients.joined(separator: ", ")
+        favorite.totalTimeInSeconds = totalTimeInSeconds ?? 0
+        favorite.course = course
+        return saveContext()
+    }
+
+    func deleteFromFavorites() -> Bool {
+        let request: NSFetchRequest<Favorite> = Favorite.fetchRequest()
+        request.predicate = NSPredicate(format: "id = %@", id)
+
+        guard let recipes = try? AppDelegate.viewContext.fetch(request) else {
+            return false
+        }
+
+        AppDelegate.viewContext.delete(recipes[0])
+        return saveContext()
+    }
+
+    private func saveContext() -> Bool {
+        do {
+            try AppDelegate.viewContext.save()
+        } catch {
+            print(error)
+            return false
+        }
+        return true
     }
 }

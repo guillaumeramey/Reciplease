@@ -12,7 +12,7 @@ class ResultsViewController: UITableViewController {
     
     var ingredients = [String]()
     var selectedCourses = [Course]()
-    var maxTotalTimeInSeconds = 0
+    var maxTotalTimeInSeconds: Int32 = 0
     private var recipes = [Recipe]()
     private var selectedRow: Int!
     private var isLoading = false
@@ -26,9 +26,9 @@ class ResultsViewController: UITableViewController {
 
     // request new data
     private func searchRecipes() {
-        SearchService().searchRecipes(with: ingredients, maxTime: maxTotalTimeInSeconds, selectedCourses: selectedCourses, startIndex: startIndex) { (searchResultsJSON) in
-            if let searchResultsJSON = searchResultsJSON {
-                self.recipes.append(contentsOf: searchResultsJSON.matches)
+        RequestService().searchRecipes(with: ingredients, maxTime: maxTotalTimeInSeconds, selectedCourses: selectedCourses, startIndex: startIndex) { (recipes) in
+            if let recipes = recipes {
+                self.recipes.append(contentsOf: recipes)
                 self.updateTableView()
             } else {
                 Alert.present(title: "Network error", message: "Something went wrong, verify your connexion.", vc: self)
@@ -85,7 +85,7 @@ class ResultsViewController: UITableViewController {
     }
 }
 
-extension ResultsViewController: SearchServiceDelegate {
+extension ResultsViewController: RequestServiceDelegate {
     func alertUser(title: String, message: String) {
         Alert.present(title: title, message: message, vc: self)
     }

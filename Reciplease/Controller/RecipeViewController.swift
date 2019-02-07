@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SwiftyJSON
 
 class RecipeViewController: UIViewController {
 
@@ -25,7 +26,7 @@ class RecipeViewController: UIViewController {
         return Favorite.all.contains(where: {$0.id == recipe.id})
     }
     private var recipeUrl: URL? {
-        if let urlString = recipe.recipeURL, let url = URL(string: urlString) {
+        if let url = recipe.recipeURL {
             return url
         } else {
             Alert.present(title: "Invalid URL", message: "The link for this recipe is invalid.", vc: self)
@@ -41,9 +42,9 @@ class RecipeViewController: UIViewController {
     
     private func getRecipe() {
         activityIndicator.startAnimating()
-        SearchService().getRecipe(id: recipe.id, completion: { (recipeJSON) in
-            if let recipeJSON = recipeJSON {
-                self.setUpRecipe(with: recipeJSON)
+        RequestService().getRecipeDetails(id: recipe.id, completion: { (json) in
+            if let json = json {
+                self.updateRecipe(with: json)
                 self.displayRecipe()
                 self.scrollView.isHidden = false
             } else {
@@ -53,20 +54,20 @@ class RecipeViewController: UIViewController {
         })
     }
 
-    private func setUpRecipe(with json: RecipeJSON) {
-        recipe.numberOfServings = json.numberOfServings
-        recipe.totalTime = json.totalTime
-        recipe.imageBig = json.images[0].imageUrlsBySize["360"]
-        recipe.ingredientLines = json.ingredientLines
-        recipe.recipeURL = json.source.sourceRecipeURL
+    private func updateRecipe(with json: JSON) {
+        recipe.numberOfServings = json["numberOfServings"].intValue
+        recipe.totalTime = json["totalTime"].stringValue
+        recipe.imageBig = json["images"][0]["hostedLargeUrl"].url
+        recipe.ingredientLines = json["ingredientLines"].arrayValue.map{$0.stringValue}
+        recipe.recipeURL = json["source"]["sourceRecipeUrl"].url
     }
 
     private func displayRecipe() {
         recipeName.text = recipe.recipeName
         totalTime.text = recipe.totalTime
 
-        if let urlString = recipe.imageBig, let url = URL(string: urlString) {
-            SearchService().getImage(from: url, completion: { (image) in
+        if let url = recipe.imageBig {
+            RequestService().getImage(from: url, completion: { (image) in
                 if let image = image {
                     self.recipeImage.image = image
                 } else {
@@ -88,19 +89,11 @@ class RecipeViewController: UIViewController {
 
 
     @IBAction func favoriteButtonPressed() {
-        isFavorite ? removeFromFavorites() : addToFavorites()
-    }
-
-    private func addToFavorites() {
-        Favorite().create(from: recipe)
-        updateFavoriteButtonImage()
-    }
-
-    private func removeFromFavorites() {
-        if Favorite().delete(id: recipe.id) {
+        let success = isFavorite ? recipe.deleteFromFavorites() : recipe.addToFavorites()
+        if success {
             updateFavoriteButtonImage()
         } else {
-            Alert.present(title: "Erreur", message: "Impossible de supprimer la recette des favoris.", vc: self)
+            Alert.present(title: "Erreur", message: "Impossible de modifier les favoris.", vc: self)
         }
     }
 
@@ -125,7 +118,7 @@ class RecipeViewController: UIViewController {
     }
 }
 
-extension RecipeViewController: SearchServiceDelegate {
+extension RecipeViewController: RequestServiceDelegate {
     func alertUser(title: String, message: String) {
         Alert.present(title: title, message: message, vc: self)
     }

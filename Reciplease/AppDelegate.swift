@@ -18,9 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
 
-        UINavigationBar.appearance().titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont(name: "AvenirNextCondensed-Medium", size: 30)!
-        ]
+//        UINavigationBar.appearance().titleTextAttributes = [
+//            NSAttributedString.Key.font: UIFont(name: "AvenirNextCondensed-Medium", size: 30)!
+//        ]
 
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "AvenirNextCondensed-Medium", size: 20)!], for: UIControl.State.normal)
 

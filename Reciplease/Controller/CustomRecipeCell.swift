@@ -33,8 +33,8 @@ class CustomRecipeCell: UITableViewCell {
             background.backgroundColor = course.color
         }
 
-        if let url = URL(string: recipe.imageSmall) {
-            SearchService().getImage(from: url, completion: { (image) in
+        if let url = recipe.imageSmall {
+            RequestService().getImage(from: url, completion: { (image) in
                 if let image = image {
                     self.recipeImage.image = image
                 }
