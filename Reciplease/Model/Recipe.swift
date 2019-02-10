@@ -9,14 +9,14 @@
 import Foundation
 import CoreData
 
-struct Recipe {
+class Recipe {
     let id: String
     let recipeName: String
     let rating: Int16
     let totalTimeInSeconds: Int32?
-    let ingredients: [String]
+    let ingredients: String
     let imageSmall: URL?
-    let course: String?
+    let course: String
 
     // Recipe details
     var imageBig: URL?
@@ -25,7 +25,7 @@ struct Recipe {
     var numberOfServings: Int?
     var recipeURL: URL?
 
-    init(id: String, name: String, imageSmall: URL, rating: Int16, ingredients: [String], totalTimeInSeconds: Int32, course: String) {
+    init(id: String, name: String, imageSmall: URL?, rating: Int16, ingredients: String, totalTimeInSeconds: Int32, course: String) {
         self.id = id
         self.recipeName = name
         self.imageSmall = imageSmall
@@ -35,37 +35,28 @@ struct Recipe {
         self.course = course
     }
 
-    func addToFavorites() -> Bool {
-        let favorite = NSEntityDescription.insertNewObject(forEntityName: "Favorite", into: AppDelegate.viewContext) as! Favorite
+    // MARK: - CORE DATA ACTIONS
+    func addToFavorites(coreDataStack: CoreDataStack) -> Bool {
+        let favorite = NSEntityDescription.insertNewObject(forEntityName: "Favorite", into: coreDataStack.viewContext) as! Favorite
         favorite.id = id
         favorite.name = recipeName
         favorite.rating = rating
         favorite.imageSmall = imageSmall
-        favorite.ingredients = ingredients.joined(separator: ", ")
+        favorite.ingredients = ingredients
         favorite.totalTimeInSeconds = totalTimeInSeconds ?? 0
         favorite.course = course
-        return saveContext()
+        return coreDataStack.saveContext()
     }
 
-    func deleteFromFavorites() -> Bool {
+    func deleteFromFavorites(coreDataStack: CoreDataStack) -> Bool {
         let request: NSFetchRequest<Favorite> = Favorite.fetchRequest()
         request.predicate = NSPredicate(format: "id = %@", id)
 
-        guard let recipes = try? AppDelegate.viewContext.fetch(request) else {
+        guard let recipes = try? coreDataStack.viewContext.fetch(request) else {
             return false
         }
 
-        AppDelegate.viewContext.delete(recipes[0])
-        return saveContext()
-    }
-
-    private func saveContext() -> Bool {
-        do {
-            try AppDelegate.viewContext.save()
-        } catch {
-            print(error)
-            return false
-        }
-        return true
+        coreDataStack.viewContext.delete(recipes[0])
+        return coreDataStack.saveContext()
     }
 }

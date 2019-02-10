@@ -21,18 +21,23 @@ class FavoriteViewController: UITableViewController {
         }
     }
 
+    // MARK: - PROPERTIES
     var selectedRecipe: Recipe!
     private var tableViewData = [SectionData]()
     private let cellId = "customRecipeCell"
 
+    // MARK: - METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "RecipeCell", bundle: nil), forCellReuseIdentifier: cellId)
+        tableView.backgroundView = UINib(nibName: "NoFavorite", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as? UIView
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateData()
+
+        tableView.backgroundView?.isHidden = tableViewData.count > 0 ? true : false
     }
 
     private func updateData() {
@@ -40,7 +45,7 @@ class FavoriteViewController: UITableViewController {
         for course in Constants.courses {
             let sectionRecipes = Favorite.recipes.filter{$0.course == course.name}
             if sectionRecipes.isEmpty == false {
-                let title = sectionRecipes[0].course ?? "No category"
+                let title = sectionRecipes[0].course
                 data.append(SectionData(title: title, recipes: sectionRecipes))
             }
         }
@@ -60,6 +65,7 @@ class FavoriteViewController: UITableViewController {
         tableView.reloadSections([sender.tag], with: .none)
     }
 
+    // MARK: - ACTIONS
     @IBAction func expandAll() {
         toggleAllSections(expand: true)
     }
@@ -74,6 +80,13 @@ class FavoriteViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return view.frame.height / 6
+    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return view.frame.height / 6
+    }
+
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return cellCourseView(section: section)
     }
@@ -87,7 +100,7 @@ class FavoriteViewController: UITableViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         button.addTarget(self, action: #selector(toggleExpansion), for: .touchUpInside)
         button.tag = section
-        button.backgroundColor = Constants.courses.first(where: {$0.name == tableViewData[section].title})?.color
+        button.backgroundColor = Constants.courses.first(where: {$0.name == tableViewData[section].title})?.color ?? UIColor.lightGray
 
         let imageName = tableViewData[section].isExpanded ? "Button_collapse" : "Button_expand"
         let image = UIImageView(image: UIImage(named: imageName))
@@ -109,7 +122,8 @@ class FavoriteViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomRecipeCell
-        cell.set(recipe: tableViewData[indexPath.section].recipes[indexPath.row])
+        let recipe = tableViewData[indexPath.section].recipes[indexPath.row]
+        cell.setCell(with: recipe)
         return cell
     }
 

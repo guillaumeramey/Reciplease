@@ -20,6 +20,9 @@ struct Constants {
 
         return value
     }
+    
+    // MARK: - CORE DATA
+    static let modelName = "Reciplease"
 
     // MARK: - SEGUES
     static let recipeSelectedSegue = "recipeSelected"
@@ -38,7 +41,6 @@ struct Constants {
     private static let cocktails = Course(name: "Cocktails", color: #colorLiteral(red: 0.5808190107, green: 0.0884276256, blue: 0.3186392188, alpha: 1))
     private static let snacks = Course(name: "Snacks", color: #colorLiteral(red: 1, green: 0.1857388616, blue: 0.5733950138, alpha: 1))
     private static let lunch = Course(name: "Lunch", color: #colorLiteral(red: 1, green: 0.4932718873, blue: 0.4739984274, alpha: 1))
-    private static let unclassified = Course(name: "Unclassified", color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1))
 
-    static let courses = [appetizers, beverages, breads, breakfastAndBrunch, cocktails, condimentsAndSauces, desserts, lunch, mainDishes, salads, sideDishes, snacks, soups, unclassified]
+    static let courses = [appetizers, beverages, breads, breakfastAndBrunch, cocktails, condimentsAndSauces, desserts, lunch, mainDishes, salads, sideDishes, snacks, soups]
 }

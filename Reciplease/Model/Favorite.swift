@@ -13,7 +13,7 @@ class Favorite: NSManagedObject {
 
     static var all: [Favorite] {
         let request: NSFetchRequest<Favorite> = Favorite.fetchRequest()
-        guard let favorites = try? AppDelegate.viewContext.fetch(request) else {
+        guard let favorites = try? CoreDataStack(modelName: Constants.modelName).viewContext.fetch(request) else {
             return []
         }
         return favorites
@@ -23,8 +23,7 @@ class Favorite: NSManagedObject {
         var recipes = [Recipe]()
         for favorite in all {
             if let id = favorite.id, let name = favorite.name, let imageSmall = favorite.imageSmall, let ingredients = favorite.ingredients, let course = favorite.course {
-                let ingredientsArray = ingredients.components(separatedBy: ", ")
-                let recipe = Recipe(id: id, name: name, imageSmall: imageSmall, rating: favorite.rating, ingredients: ingredientsArray, totalTimeInSeconds : favorite.totalTimeInSeconds, course: course)
+                let recipe = Recipe(id: id, name: name, imageSmall: imageSmall, rating: favorite.rating, ingredients: ingredients, totalTimeInSeconds : favorite.totalTimeInSeconds, course: course)
                 recipes.append(recipe)
             }
         }

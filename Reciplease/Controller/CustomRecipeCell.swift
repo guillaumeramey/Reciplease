@@ -10,6 +10,7 @@ import UIKit
 
 class CustomRecipeCell: UITableViewCell {
 
+    // MARK: - OUTLETS
     @IBOutlet weak var background: UIView!
     @IBOutlet weak var recipeImage: UIImageView!
     @IBOutlet weak var recipeName: UILabel!
@@ -17,18 +18,13 @@ class CustomRecipeCell: UITableViewCell {
     @IBOutlet var recipeRating: [UIImageView]!
     @IBOutlet weak var recipeCookingTime: UILabel!
 
-    func set(recipe: Recipe) {
+    // MARK: - METHODS
+    func setCell(with recipe: Recipe) {
         resetCell()
-
-        recipeImage.layer.borderWidth = 2
-        recipeImage.layer.cornerRadius = 20
-        recipeImage.layer.borderColor = UIColor.white.cgColor
+        setCellDesign()
 
         recipeName.text = recipe.recipeName
 
-        background.layer.borderWidth = 2
-        background.layer.cornerRadius = 20
-        background.layer.borderColor = UIColor.white.cgColor
         if let course = Constants.courses.first(where: {$0.name == recipe.course}) {
             background.backgroundColor = course.color
         }
@@ -41,15 +37,11 @@ class CustomRecipeCell: UITableViewCell {
             })
         }
 
-        for star in recipeRating {
-            if star.tag <= recipe.rating {
-                star.image = UIImage(named: "star_true")
-            } else {
-                star.image = UIImage(named: "star_false")
-            }
+        for star in recipeRating where star.tag <= recipe.rating {
+            star.image = UIImage(named: "star_true")
         }
 
-        recipeIngredients.text = recipe.ingredients.joined(separator: ", ")
+        recipeIngredients.text = recipe.ingredients
         recipeCookingTime.text = recipe.totalTimeInSeconds?.convertToTimeString()
     }
 
@@ -62,5 +54,14 @@ class CustomRecipeCell: UITableViewCell {
         for star in recipeRating {
             star.image = UIImage(named: "star_false")
         }
+    }
+
+    private func setCellDesign() {
+        recipeImage.layer.borderWidth = 2
+        recipeImage.layer.cornerRadius = 20
+        recipeImage.layer.borderColor = UIColor.white.cgColor
+        background.layer.borderWidth = 2
+        background.layer.cornerRadius = 20
+        background.layer.borderColor = UIColor.white.cgColor
     }
 }

@@ -9,7 +9,8 @@
 import UIKit
 
 class ResultsViewController: UITableViewController {
-    
+
+    // MARK: - PROPERTIES
     var ingredients = [String]()
     var selectedCourses = [Course]()
     var maxTotalTimeInSeconds: Int32 = 0
@@ -18,7 +19,9 @@ class ResultsViewController: UITableViewController {
     private var isLoading = false
     private var startIndex = 0
     private let cellId = "customRecipeCell"
+    private let requestService = RequestService()
 
+    // MARK: - METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "RecipeCell", bundle: nil), forCellReuseIdentifier: cellId)
@@ -26,7 +29,7 @@ class ResultsViewController: UITableViewController {
 
     // request new data
     private func searchRecipes() {
-        RequestService().searchRecipes(with: ingredients, maxTime: maxTotalTimeInSeconds, selectedCourses: selectedCourses, startIndex: startIndex) { (recipes) in
+        requestService.searchRecipes(with: ingredients, maxTime: maxTotalTimeInSeconds, selectedCourses: selectedCourses, startIndex: startIndex) { (recipes) in
             if let recipes = recipes {
                 self.recipes.append(contentsOf: recipes)
                 self.updateTableView()
@@ -47,7 +50,6 @@ class ResultsViewController: UITableViewController {
         startIndex = recipes.count
     }
 
-    // segue to the selected recipe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.recipeSelectedSegue {
             let recipeVC = segue.destination as! RecipeViewController
@@ -60,9 +62,16 @@ class ResultsViewController: UITableViewController {
         return recipes.count
     }
 
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return view.frame.height / 6
+    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return view.frame.height / 6
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomRecipeCell
-        cell.set(recipe: recipes[indexPath.row])
+        cell.setCell(with: recipes[indexPath.row])
         return cell
     }
     
@@ -85,6 +94,7 @@ class ResultsViewController: UITableViewController {
     }
 }
 
+// MARK: - 
 extension ResultsViewController: RequestServiceDelegate {
     func alertUser(title: String, message: String) {
         Alert.present(title: title, message: message, vc: self)

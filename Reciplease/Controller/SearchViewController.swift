@@ -10,6 +10,7 @@ import UIKit
 
 class SearchViewController: UIViewController {
 
+    // MARK: - OUTLETS
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var newIngredient: UITextField!
     @IBOutlet weak var ingredientButton: UIButton!
@@ -20,6 +21,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var timeSlider: UISlider!
     @IBOutlet weak var timeSliderStackView: UIStackView!
 
+    // MARK: - PROPERTIES
     var ingredients = [String]()
     var maxTotalTimeInSeconds:Int32 = 0 {
         willSet {
@@ -27,6 +29,7 @@ class SearchViewController: UIViewController {
         }
     }
 
+    // MARK: - METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -73,6 +76,7 @@ class SearchViewController: UIViewController {
         }
     }
 
+    // MARK: - ACTIONS
     // clear list or add ingredient to it depending on button tag
     @IBAction func ingredientButtonPressed(_ sender: UIButton!) {
         if ingredientButton.tag == 0 {
@@ -97,6 +101,7 @@ class SearchViewController: UIViewController {
     }
 }
 
+// MARK: -
 extension SearchViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -117,6 +122,7 @@ extension SearchViewController: UITableViewDataSource {
     }
 }
 
+// MARK: -
 extension SearchViewController: UITextFieldDelegate {
     @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         newIngredient.resignFirstResponder()
@@ -134,6 +140,7 @@ extension SearchViewController: UITextFieldDelegate {
 
 }
 
+// MARK: -
 extension Int32 {
     func convertToTimeString() -> String {
         let hours = self / 3600
@@ -144,6 +151,7 @@ extension Int32 {
     }
 }
 
+// MARK: - 
 extension SearchViewController: CoursesViewControllerDelegate {
     func setCourseButtonTitle(with title: String) {
         selectCourseButton.setTitle(title, for: .normal)

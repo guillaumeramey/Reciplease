@@ -12,6 +12,7 @@ import SwiftyJSON
 
 class RecipeViewController: UIViewController {
 
+    // MARK: - OUTLETS
     @IBOutlet weak var recipeImage: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -21,6 +22,7 @@ class RecipeViewController: UIViewController {
     @IBOutlet weak var totalTime: UILabel!
     @IBOutlet weak var favoriteButton: UIBarButtonItem!
 
+    // MARK: - PROPERTIES
     var recipe: Recipe!
     private var isFavorite: Bool {
         return Favorite.all.contains(where: {$0.id == recipe.id})
@@ -33,18 +35,26 @@ class RecipeViewController: UIViewController {
             return nil
         }
     }
+    private let requestService = RequestService()
+    private lazy var coreDataStack = CoreDataStack(modelName: Constants.modelName)
 
+    // MARK: - METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.isHidden = true
         getRecipe()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateFavoriteButtonImage()
+    }
     
     private func getRecipe() {
         activityIndicator.startAnimating()
-        RequestService().getRecipeDetails(id: recipe.id, completion: { (json) in
-            if let json = json {
-                self.updateRecipe(with: json)
+        requestService.getRecipeDetails(recipe: recipe, completion: { (recipe) in
+            if let recipe = recipe {
+                self.recipe = recipe
                 self.displayRecipe()
                 self.scrollView.isHidden = false
             } else {
@@ -54,20 +64,12 @@ class RecipeViewController: UIViewController {
         })
     }
 
-    private func updateRecipe(with json: JSON) {
-        recipe.numberOfServings = json["numberOfServings"].intValue
-        recipe.totalTime = json["totalTime"].stringValue
-        recipe.imageBig = json["images"][0]["hostedLargeUrl"].url
-        recipe.ingredientLines = json["ingredientLines"].arrayValue.map{$0.stringValue}
-        recipe.recipeURL = json["source"]["sourceRecipeUrl"].url
-    }
-
     private func displayRecipe() {
         recipeName.text = recipe.recipeName
         totalTime.text = recipe.totalTime
 
         if let url = recipe.imageBig {
-            RequestService().getImage(from: url, completion: { (image) in
+            requestService.getImage(from: url, completion: { (image) in
                 if let image = image {
                     self.recipeImage.image = image
                 } else {
@@ -87,9 +89,9 @@ class RecipeViewController: UIViewController {
         updateFavoriteButtonImage()
     }
 
-
+    // MARK: - ACTIONS
     @IBAction func favoriteButtonPressed() {
-        let success = isFavorite ? recipe.deleteFromFavorites() : recipe.addToFavorites()
+        let success = isFavorite ? recipe.deleteFromFavorites(coreDataStack: coreDataStack) : recipe.addToFavorites(coreDataStack: coreDataStack)
         if success {
             updateFavoriteButtonImage()
         } else {
@@ -118,6 +120,7 @@ class RecipeViewController: UIViewController {
     }
 }
 
+// MARK: -
 extension RecipeViewController: RequestServiceDelegate {
     func alertUser(title: String, message: String) {
         Alert.present(title: title, message: message, vc: self)

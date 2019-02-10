@@ -16,6 +16,6 @@ class Course {
     init(name: String, color: UIColor) {
         self.name = name
         self.color = color
-        isSelected = false
+        isSelected = true
     }
 }
