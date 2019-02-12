@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import CoreData
-import SwiftyJSON
 
 class RecipeViewController: UIViewController {
 
@@ -49,7 +47,8 @@ class RecipeViewController: UIViewController {
         super.viewWillAppear(animated)
         updateFavoriteButtonImage()
     }
-    
+
+    // API request for a recipe
     private func getRecipe() {
         activityIndicator.startAnimating()
         requestService.getRecipeDetails(recipe: recipe, completion: { (recipe) in
@@ -81,7 +80,7 @@ class RecipeViewController: UIViewController {
         }
 
         if let ingredientLines = recipe.ingredientLines {
-            ingredients.text = "- " + ingredientLines.joined(separator: "\n- ")
+            ingredients.text = ingredientLines.joined(separator: "\n")
         }
         if let numberOfServings = recipe.numberOfServings {
             servings.text = "\(numberOfServings) people"

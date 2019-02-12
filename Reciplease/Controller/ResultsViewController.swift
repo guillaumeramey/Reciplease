@@ -24,7 +24,17 @@ class ResultsViewController: UITableViewController {
     // MARK: - METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.backgroundView = backgroundView()
         tableView.register(UINib(nibName: "RecipeCell", bundle: nil), forCellReuseIdentifier: cellId)
+    }
+
+    // background view with activity indicator
+    private func backgroundView() -> UIView {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = .whiteLarge
+        activityIndicator.color = UIColor(named: "Color_text")
+        activityIndicator.startAnimating()
+        return activityIndicator
     }
 
     // request new data
